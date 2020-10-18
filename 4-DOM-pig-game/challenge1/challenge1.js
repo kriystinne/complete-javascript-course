@@ -13,9 +13,19 @@ GAME RULES:
 YOUR 3 CHALLENGES
 Change the game to follow these rules:
 
-1. A player loses his ENTIRE score when he rolls two 6 in a row. After that, it's the next player's turn. (Hint: Always save the previous dice roll in a separate variable)
-2. Add an input field to the HTML where players can set the winning score, so that they can change the predefined score of 100. (Hint: you can read that value with the .value property in JavaScript. This is a good oportunity to use google to figure this out :)
-3. Add another dice to the game, so that there are two dices now. The player looses his current score when one of them is a 1. (Hint: you will need CSS to position the second dice, so take a look at the CSS code for the first one.)
+1. A player loses his ENTIRE score when he rolls two 6 in a row. 
+After that, it's the next player's turn. 
+(Hint: Always save the previous dice roll in a separate variable)
+
+2. Add an input field to the HTML where players can set the winning score, 
+so that they can change the predefined score of 100. 
+(Hint: you can read that value with the .value property in JavaScript. 
+This is a good oportunity to use google to figure this out :)
+
+3. Add another dice to the game, so that there are two dices now. 
+The player loses his current score when one of them is a 1. 
+(Hint: you will need CSS to position the second dice, 
+    so take a look at the CSS code for the first one.)
 */
 
 
@@ -24,7 +34,7 @@ Change the game to follow these rules:
 - for each HTML box, there is an object in the DOM that we can interact with js
 */
 
-let scores, roundScores, activePlayer, gameActive;
+let scores, roundScores, activePlayer, gameActive, throws;
 
 //state variable = the condition of a system (is our game playing or not)
 
@@ -61,7 +71,9 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
         nextPlayer();
         }
     }
-
+    else {
+        initGame();
+    }
 });
 
 
@@ -111,6 +123,9 @@ function initGame() {
 
     // start from player 1
     activePlayer = 0;
+
+    // keep track of the throws
+    throws = [0, 0]
 
     document.getElementById("current-0").textContent = 0;
     document.getElementById("current-1").textContent = 0;
