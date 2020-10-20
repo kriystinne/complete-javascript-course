@@ -26,6 +26,27 @@ body {
     color: #555;
 }
 
+
+.score-input {
+    font-family: Lato;
+    font-weight: 300;
+    height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #EB4D4D;
+    outline: none;
+    margin: 10px;
+    transition: .4s;
+    text-align: center;
+}
+
+.score-input[type=text]:focus {
+    border-color: #EB4D4D;
+    box-shadow: 0 0 5px 0 #EB4D4D;
+}
+
 .wrapper {
     width: 1000px;
     position: absolute;
@@ -148,6 +169,17 @@ i {
     transform: translateX(-50%);
     height: 100px;
     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+    background-color: #f7f7f7;
+}
+
+.dice2 {
+    position: absolute;
+    left: 50%;
+    top: 280px;
+    transform: translateX(-50%);
+    height: 100px;
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.10);
+    background-color: #f7f7f7;
 }
 
 .winner { background-color: #f7f7f7; }

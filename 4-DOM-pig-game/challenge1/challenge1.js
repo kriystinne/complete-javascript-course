@@ -34,7 +34,7 @@ The player loses his current score when one of them is a 1.
 - for each HTML box, there is an object in the DOM that we can interact with js
 */
 
-let scores, roundScores, activePlayer, gameActive, throws;
+let scores, roundScores, activePlayer, gameActive, prevDice;
 
 //state variable = the condition of a system (is our game playing or not)
 
@@ -46,6 +46,8 @@ initGame();
 // document object
 
 document.querySelector(".dice").style.display = "none";
+document.querySelector(".dice2").style.display = "none";
+
 
 // event handler
 // btn-roll select it using query selector and then do smth with it
@@ -55,20 +57,29 @@ document.querySelector(".btn-roll").addEventListener("click", function() {
         // 1. Random number
         // create the dice to give a random number between 1 and 6
         let dice = Math.floor(Math.random()*6 + 1);
+        let dice2 = Math.floor(Math.random()*6 + 1);
 
         // display the result
         let diceDOM = document.querySelector(".dice")
         diceDOM.style.display = "block";
 
+        let dice2DOM = document.querySelector(".dice2");
+        dice2DOM.style.display = "block";
+
         // update the image for the dice
-        diceDOM.src = "dice-" + dice + ".png"
+        diceDOM.src = "dice-" + dice + ".png";
+        dice2DOM.src = "dice-" + dice2 + ".png";
+       
 
         // update the round Score IF the rolled number is not 1
-        if (dice !== 1) {
+        if (dice !== 1 && dice2 !== 1) {
             roundScore += dice;
+            roundScore += dice2;
             document.querySelector("#current-" + activePlayer).textContent = roundScore;
-        } else {
-        nextPlayer();
+        }  else {
+            setTimeout(function() {
+                nextPlayer();
+            }, 0500);           
         }
     }
     else {
@@ -84,21 +95,39 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
         scores[activePlayer] += roundScore;
         document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
 
+        // set starting winner score
+        winnerScore = 100;
+
+        // check for winning score input
+        let setScore = document.getElementById("winning-score").value;
+        setScore != "" ? (winnerScore = setScore) : winnerScore;
+
         // check if the player won the game
-        if (scores[activePlayer] >= 100) {
+        if (scores[activePlayer] >= winnerScore) {
             document.querySelector("#name-" + activePlayer).textContent = "Winner!"
             document.querySelector(".player-" + activePlayer +"-panel").classList.add("winner")
             document.querySelector(".player-" + activePlayer +"-panel").classList.remove("active")
 
+            // remove the dice
+            document.querySelector(".dice").style.display = "none";
+            document.querySelector(".dice2").style.display = "none";
+
+            // remove the current score
+            document.querySelector("#current-" + activePlayer).textContent = 0;
+      
             // reset the game state
             gameActive = false;
         } else {
-            nextPlayer();
+            setTimeout(function() {
+                nextPlayer();
+            }, 0500);           
         }
-}
+    }
 });
 
+
 function nextPlayer() {
+
      //jump to the next player
      activePlayer === 0 ? activePlayer = 1: activePlayer = 0;
      roundScore = 0;
@@ -110,8 +139,11 @@ function nextPlayer() {
      document.querySelector(".player-0-panel").classList.toggle("active")
      document.querySelector(".player-1-panel").classList.toggle("active")
 
+     
+
      // hide the dice
      document.querySelector(".dice").style.display = "none";
+     document.querySelector(".dice2").style.display = "none";
 
 }
 
@@ -124,8 +156,8 @@ function initGame() {
     // start from player 1
     activePlayer = 0;
 
-    // keep track of the throws
-    throws = [0, 0]
+    // active game
+    gameActive = true;
 
     document.getElementById("current-0").textContent = 0;
     document.getElementById("current-1").textContent = 0;
@@ -140,8 +172,11 @@ function initGame() {
     document.querySelector(".player-0-panel").classList.remove("winner")
     document.querySelector(".player-1-panel").classList.remove("winner")
     document.querySelector(".player-0-panel").classList.remove("active")
-    document.querySelector(".player-0-panel").classList.add("winner")
-    document.querySelector(".player-1-panel").classList.remove("winner")
+    document.querySelector(".player-0-panel").classList.add("active")
+    document.querySelector(".player-1-panel").classList.remove("active")
+
+    // remove the value in the input field
+    document.getElementById('winning-score').value = '';
 
 
 }
